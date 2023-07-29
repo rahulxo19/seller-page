@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import SellerForm from "./components/SellerForm";
+import ProductList from "./components/ProductList";
+import { useState } from "react";
+import ProductsWorth from "./components/ProductsWorth";
 
 function App() {
+  const [products, setProducts] = useState([]);
+  const addProducts = (product) => {
+    setProducts((prevProducts) => {
+      const updatedProducts = [...prevProducts];
+      updatedProducts.push(product);
+      return updatedProducts;
+    });
+  };
+
+  const deleteHandler = (id) => {
+    setProducts((rmProducts) => {
+      const updatedProducts = products.filter((product) => product.id !== id);
+      return updatedProducts;
+    });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <SellerForm add={addProducts} />
+      <ProductList products={products} delete={deleteHandler} />
+      <ProductsWorth products={products} />
+    </>
   );
 }
 
